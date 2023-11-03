@@ -78,23 +78,5 @@ function download() {
   // setTimeout() here is needed for Firefox.
   setTimeout(function () {
       (window.URL || window.webkitURL).revokeObjectURL(url);
-  }, 100); }
-
-  var isRecording = false; // Neue Variable hinzugefügt, um den Aufnahmestatus zu verfolgen
-
-function getStream() {
-  if (isRecording) {
-    alert('Recording is already in progress.');
-    return;
-  }}
-
-  // Fügen Sie die Funktion hinzu, um den Video-Stream zu stoppen
-function stopStream() {
-  if (theStream) {
-    // Stoppen Sie den MediaRecorder
-    if (theRecorder && theRecorder.state === "recording") {
-      theRecorder.stop();
-    }
-
-    // Stoppen Sie den Video-Stream
-    theStream.getTracks().forEach(track => track.stop());}}
+  }, 100); 
+}
