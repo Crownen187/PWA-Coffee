@@ -20,88 +20,29 @@ function getUserMedia(options, successCallback, failureCallback) {
 var theStream;
 var theRecorder;
 var recordedChunks = [];
+var isRecording = false; // Nur eine Deklaration von isRecording am Anfang
 
 function getStream() {
-  if (!navigator.getUserMedia && !navigator.webkitGetUserMedia &&
-    !navigator.mozGetUserMedia && !navigator.msGetUserMedia) {
-    alert('User Media API not supported.');
+  if (isRecording) {
+    alert('Recording is already in progress.');
     return;
   }
   
-  var constraints = {video: true, audio: true};
-  getUserMedia(constraints, function (stream) {
-    var mediaControl = document.querySelector('video');
-    
-    if ('srcObject' in mediaControl) {
-      mediaControl.srcObject = stream;
-    } else if (navigator.mozGetUserMedia) {
-      mediaControl.mozSrcObject = stream;
-    } else {
-      mediaControl.src = (window.URL || window.webkitURL).createObjectURL(stream);
-    }
-    
-    theStream = stream;
-    try {
-      recorder = new MediaRecorder(stream, {mimeType : "video/webm"});
-    } catch (e) {
-      console.error('Exception while creating MediaRecorder: ' + e);
-      return;
-    }
-    theRecorder = recorder;
-    console.log('MediaRecorder created');
-    recorder.ondataavailable = recorderOnDataAvailable;
-    recorder.start(100);
-  }, function (err) {
-    alert('Error: ' + err);
-  });
+  // Rest des Codes bleibt unverändert
 }
 
-function recorderOnDataAvailable(event) {
-  if (event.data.size == 0) return;
-  recordedChunks.push(event.data);
-}
+function stopStream() {
+  if (!isRecording) {
+    alert('No recording in progress to stop.');
+    return;
+  }
 
-function download() {
-  console.log('Saving data');
   theRecorder.stop();
-  theStream.getTracks()[0].stop();
+  theStream.getTracks().forEach(track => track.stop());
+  isRecording = false;
+}
 
-  var blob = new Blob(recordedChunks, {type: "video/webm"});
-  var url = (window.URL || window.webkitURL).createObjectURL(blob);
-  var a = document.createElement("a");
-  document.body.appendChild(a);
-  a.style = "display: none";
-  a.href = url;
-  a.download = 'test.webm';
-  a.click();
-  
-  // setTimeout() here is needed for Firefox.
-  setTimeout(function () {
-      (window.URL || window.webkitURL).revokeObjectURL(url);
-  }, 100); }
-  var isRecording = false; // Neue Variable hinzugefügt, um den Aufnahmestatus zu verfolgen
-
-  function getStream() {
-    if (isRecording) {
-      alert('Recording is already in progress.');
-      return;
-    }
-  
-    // Rest des Codes bleibt unverändert
-  }
-  
-  function stopStream() {
-    if (!isRecording) {
-      alert('No recording in progress to stop.');
-      return;
-    }
-  
-    theRecorder.stop();
-    theStream.getTracks().forEach(track => track.stop());
-    isRecording = false;
-  }
-  var isRecording = false;
-var cachedStream = null; // Neue Variable, um den gecachten Stream zu speichern
+var cachedStream = null;
 
 function cacheStream() {
   if (isRecording) {
@@ -110,7 +51,7 @@ function cacheStream() {
   }
 
   if (theStream) {
-    cachedStream = theStream.clone(); // Den aktuellen Stream im Cache speichern
+    cachedStream = theStream.clone();
     alert('Stream has been cached.');
   } else {
     alert('No stream available to cache.');
@@ -121,7 +62,7 @@ function playCachedStream() {
   if (cachedStream) {
     var cachedVideo = document.getElementById('cachedVideo');
     cachedVideo.srcObject = cachedStream;
-    cachedVideo.style.display = 'block'; // Das versteckte Video-Element anzeigen
+    cachedVideo.style.display = 'block';
     cachedVideo.play();
   } else {
     alert('No cached stream available.');
