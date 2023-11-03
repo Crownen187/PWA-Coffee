@@ -133,7 +133,17 @@ function download() {
   
   
   
-  // Verknüpfe die Buttons mit den Funktionen
-  document.getElementById('stopButton').addEventListener('click', stopStream);
-  document.getElementById('saveToCacheButton').addEventListener('click', saveVideoToCache);
-  document.getElementById('playFromCacheButton').addEventListener('click', playVideoFromCache);
+  
+// Get references to the buttons by their IDs
+var startRecordingButton = document.getElementById('startRecordingButton');
+var stopButton = document.getElementById('stopButton');
+var playFromCacheButton = document.getElementById('playFromCacheButton');
+var saveToCacheButton = document.getElementById('saveToCacheButton');
+var downloadButton = document.getElementById('downloadButton');
+
+// Add event listeners to the buttons
+startRecordingButton.addEventListener('click', getStream);
+stopButton.addEventListener('click', stopStream);
+playFromCacheButton.addEventListener('click', playVideoFromCache);
+saveToCacheButton.addEventListener('click', saveVideoToCache);
+downloadButton.addEventListener('click', download);
