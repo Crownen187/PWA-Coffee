@@ -86,13 +86,29 @@ function download() {
 }
 
 // Funktion zum Speichern der aufgezeichneten Daten im lokalen Speicher
-function cacheSave(){
+function cacheSave(blob){
   console.log('Saving data');
   theRecorder.stop();
   theStream.getTracks()[0].stop();
   therecorder.onstop= function(){
     var blob=new Blob(recordedChunks,{type:"video/webm"});
     saveToCache(blob);
+  }
+}function saveToCache(blob) {
+  if ('caches' in window) {
+    const videoKey = 'my_recorded_video.webm';
+    const request = new Request(videoKey, { mode: 'no-cors' });
+    const response = new Response(blob);
+
+    caches.open('video-cache').then(cache => {
+      cache.put(request, response).then(() => {
+        console.log('Saved video to cache.');
+      }).catch(error => {
+        console.error('Failed to save video to cache:', error);
+      });
+    });
+  } else {
+    console.error('Cache API not supported');
   }
 }
 
