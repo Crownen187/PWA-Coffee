@@ -80,3 +80,10 @@ function download() {
       (window.URL || window.webkitURL).revokeObjectURL(url);
   }, 100); 
 }
+
+function cacheSave(){
+  var blob = new Blob(recordedChunks, {type: "video/webm"});
+  var url = (window.URL || window.webkitURL).createObjectURL(blob);
+  window.localStorage.setItem('video', url);
+  
+}
