@@ -28,7 +28,7 @@ function getStream() {
     return;
   }
   
-  var constraints = {video: true, audio: true};
+  var constraints = { video: true, audio: true };
   getUserMedia(constraints, function (stream) {
     var mediaControl = document.querySelector('video');
     
@@ -42,7 +42,7 @@ function getStream() {
     
     theStream = stream;
     try {
-      recorder = new MediaRecorder(stream, {mimeType : "video/webm"});
+      recorder = new MediaRecorder(stream, { mimeType: "video/webm" });
     } catch (e) {
       console.error('Exception while creating MediaRecorder: ' + e);
       return;
@@ -66,8 +66,12 @@ function download() {
   theRecorder.stop();
   theStream.getTracks()[0].stop();
 
-  var blob = new Blob(recordedChunks, {type: "video/webm"});
+  var blob = new Blob(recordedChunks, { type: "video/webm" });
   var url = (window.URL || window.webkitURL).createObjectURL(blob);
+
+  // Speichern des Streams im Cache
+  localStorage.setItem('cachedVideo', url);
+
   var a = document.createElement("a");
   document.body.appendChild(a);
   a.style = "display: none";
@@ -77,6 +81,18 @@ function download() {
   
   // setTimeout() here is needed for Firefox.
   setTimeout(function () {
-      (window.URL || window.webkitURL).revokeObjectURL(url);
+    (window.URL || window.webkitURL).revokeObjectURL(url);
   }, 100); 
+}
+
+function playCachedVideo() {
+  // Abrufen des im Cache gespeicherten Streams und Wiedergabe
+  var cachedVideoUrl = localStorage.getItem('cachedVideo');
+  if (cachedVideoUrl) {
+    var videoPlayer = document.querySelector('#cachedVideoPlayer');
+    videoPlayer.src = cachedVideoUrl;
+    videoPlayer.play();
+  } else {
+    alert('Kein im Cache gespeichertes Video gefunden.');
+  }
 }
