@@ -90,15 +90,12 @@ function cacheSave(){
 
 function cacheLoad(){
   var url = window.localStorage.getItem('video');
-  var a = document.createElement("a");
-  document.body.appendChild(a);
-  a.style = "display: none";
-  a.href = url;
-  a.download = 'test.webm';
-  a.click();
+  //video abspielen
+  var mediaControl = document.querySelector('video');
+  mediaControl.src = url;
+}
   
   // setTimeout() here is needed for Firefox.
   setTimeout(function () {
       (window.URL || window.webkitURL).revokeObjectURL(url);
   }, 100); 
-}
