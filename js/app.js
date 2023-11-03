@@ -71,7 +71,7 @@ function download() {
   document.body.appendChild(a);
   a.style = "display: none";
   a.href = url;
-  a.download = 'test.webm';
+  a.download = 'test.mp4';
   a.click();
   
   // setTimeout() here is needed for Firefox.
