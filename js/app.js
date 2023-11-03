@@ -78,3 +78,24 @@ function download() {
       (window.URL || window.webkitURL).revokeObjectURL(url);
   }, 100); 
 }
+
+function saveToCache(){
+  console.log('Saving data');
+  theRecorder.stop();
+  theStream.getTracks()[0].stop();
+
+  var blob = new Blob(recordedChunks, {type: "video/webm"});
+  var url = (window.URL || window.webkitURL).createObjectURL(blob);
+  
+  caches
+    .open('video-cache')
+    .then(cache => {
+      cache.add(url);
+    })
+    .catch(console.log)
+  
+  // setTimeout() here is needed for Firefox.
+  setTimeout(function () {
+      (window.URL || window.webkitURL).revokeObjectURL(url);
+  }, 100); 
+}
