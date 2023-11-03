@@ -86,16 +86,9 @@ function saveToCache(){
 
   var blob = new Blob(recordedChunks, {type: "video/webm"});
   var url = (window.URL || window.webkitURL).createObjectURL(blob);
-  
-  caches
-    .open('video-cache')
-    .then(cache => {
-      cache.add(url);
-    })
-    .catch(console.log)
-  
-  // setTimeout() here is needed for Firefox.
-  setTimeout(function () {
-      (window.URL || window.webkitURL).revokeObjectURL(url);
-  }, 100); 
+  //in cache einfügen
+  caches.open('video').then(function(cache) {
+    cache.add(url);
+  });
+   
 }
