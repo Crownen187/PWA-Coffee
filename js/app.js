@@ -68,12 +68,10 @@ function download() {
 
   var blob = new Blob(recordedChunks, {type: "video/webm"});
   var url = (window.URL || window.webkitURL).createObjectURL(blob);
-  storage.setItem(Blob, url)
   var a = document.createElement("a");
   document.body.appendChild(a);
   a.style = "display: none";
   a.href = url;
-  
   a.download = 'test.webm';
   a.click();
   
