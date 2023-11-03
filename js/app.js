@@ -93,7 +93,7 @@ function cacheLoad(){
   //video abspielen
   var mediaControl = document.querySelector('video');
   mediaControl.src = url;
-  mediaControl.play();
+  mediaControl.play('video');
 }
   
   // setTimeout() here is needed for Firefox.
