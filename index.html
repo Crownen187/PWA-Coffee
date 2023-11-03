@@ -13,9 +13,15 @@
 
   </head>
   <body>
-    <video autoplay style="height:180px; width: 240px;" poster="https://image.freepik.com/free-icon/video-camera-symbol_318-40225.png"></video>
-<p><button onclick="getStream()">Grab video & start recording</button></p>
-<p><button onclick="download()">Download!</button></p>
+    <div>
+      <video autoplay style="height:180px; width: 240px;" poster="https://image.freepik.com/free-icon/video-camera-symbol_318-40225.png"></video>
+      <video id="cachedVideo" controls style="height:180px; width: 240px; display: none;"></video> <!-- Verstecktes Video-Element für den gecachten Stream -->
+    </div>
+    <p><button onclick="getStream()">Grab video & start recording</button></p>
+    <p><button onclick="stopStream()">Stop recording & stream</button></p>
+    <p><button onclick="cacheStream()">Cache Stream</button></p> <!-- Neuer Knopf zum Speichern im Cache -->
+    <p><button onclick="playCachedStream()">Play Cached Stream</button></p> <!-- Neuer Knopf zum Wiedergeben des gecachten Streams -->
+    <p><button onclick="download()">Download!</button></p>
     <script src="js/app.js"></script>
   </body>
 </html>

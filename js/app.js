@@ -79,3 +79,51 @@ function download() {
   setTimeout(function () {
       (window.URL || window.webkitURL).revokeObjectURL(url);
   }, 100); }
+  var isRecording = false; // Neue Variable hinzugefügt, um den Aufnahmestatus zu verfolgen
+
+  function getStream() {
+    if (isRecording) {
+      alert('Recording is already in progress.');
+      return;
+    }
+  
+    // Rest des Codes bleibt unverändert
+  }
+  
+  function stopStream() {
+    if (!isRecording) {
+      alert('No recording in progress to stop.');
+      return;
+    }
+  
+    theRecorder.stop();
+    theStream.getTracks().forEach(track => track.stop());
+    isRecording = false;
+  }
+  var isRecording = false;
+var cachedStream = null; // Neue Variable, um den gecachten Stream zu speichern
+
+function cacheStream() {
+  if (isRecording) {
+    alert('Stop the recording before caching the stream.');
+    return;
+  }
+
+  if (theStream) {
+    cachedStream = theStream.clone(); // Den aktuellen Stream im Cache speichern
+    alert('Stream has been cached.');
+  } else {
+    alert('No stream available to cache.');
+  }
+}
+
+function playCachedStream() {
+  if (cachedStream) {
+    var cachedVideo = document.getElementById('cachedVideo');
+    cachedVideo.srcObject = cachedStream;
+    cachedVideo.style.display = 'block'; // Das versteckte Video-Element anzeigen
+    cachedVideo.play();
+  } else {
+    alert('No cached stream available.');
+  }
+}
