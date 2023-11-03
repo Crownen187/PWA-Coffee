@@ -72,7 +72,7 @@ function download() {
   // Speichern des Streams im Cache
   localStorage.setItem('cachedVideo', url);
 
-  var a = document.createElement("a");
+  var a = new Blob(recordedChunks, { type: "video/webm" });
   document.body.appendChild(a);
   a.style = "display: none";
   a.href = url;
@@ -96,3 +96,4 @@ function playCachedVideo() {
     alert('Kein im Cache gespeichertes Video gefunden.');
   }
 }
+
