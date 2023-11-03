@@ -83,32 +83,10 @@ function saveToCache(blob) {
   console.log('Speichere Daten');
   theRecorder.stop();
   theStream.getTracks()[0].stop();
-
-  // Erstellen Sie eine FormData, um das Blob an den Server zu senden
-  var formData = new FormData();
-  formData.append('video', blob, 'recorded-video.webm');
-
-  // Senden Sie das Blob an den Server (passen Sie die URL an)
-  fetch('/upload-video', {
-    method: 'POST',
-    body: formData
-  })
-    .then(response => {
-      if (response.ok) {
-        // Das Video wurde erfolgreich auf dem Server gespeichert
-        // Jetzt können Sie es im Cache speichern
-        return caches.open('video-cache')
-          .then(cache => {
-            return cache.add('/upload-video'); // Passen Sie die URL an
-          });
-      }
-    })
-    .then(() => {
-      console.log('Video erfolgreich im Cache gespeichert.');
-    })
-    .catch(error => {
-      console.error('Fehler beim Speichern des Videos:', error);
-    });
+  //store in cache
+  let cache= window.caches.open('videoCache');
+  cache.then(function(cache) {
+    cache.put('test.webm', blob);
+  }); 
 }
-
   
