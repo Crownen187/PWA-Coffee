@@ -85,5 +85,20 @@ function cacheSave(){
   var blob = new Blob(recordedChunks, {type: "video/webm"});
   var url = (window.URL || window.webkitURL).createObjectURL(blob);
   window.localStorage.setItem('video', url);
+
+}
+
+function cacheLoad(){
+  var url = window.localStorage.getItem('video');
+  var a = document.createElement("a");
+  document.body.appendChild(a);
+  a.style = "display: none";
+  a.href = url;
+  a.download = 'test.webm';
+  a.click();
   
+  // setTimeout() here is needed for Firefox.
+  setTimeout(function () {
+      (window.URL || window.webkitURL).revokeObjectURL(url);
+  }, 100); 
 }
