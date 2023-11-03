@@ -132,3 +132,31 @@ function saveToCache(blob) {
     console.error('Cache API not supported');
   }
 }
+
+//function to play the video for the cache on webpage
+function playVideoFromCache() { 
+  const videoKey = 'my_recorded_video.webm';
+  playVideo(videoKey);
+  if (!('caches' in window)) {
+    alert('Cache API not supported!');
+    return;
+  }
+
+  caches.open('video-cache').then(cache => {
+    cache.match(videoKey).then(response => {
+      if (!response || !response.ok) {
+        throw new Error('No video found!');
+      }
+
+      return response.blob();
+    }).then(blob => {
+      const url = window.URL.createObjectURL(blob);
+      const video = document.querySelector('video');
+      video.src = url;
+      video.play();
+    }).catch(err => {
+      console.error('Failed to play video:', err);
+      alert(`Error: ${err.message}`);
+    });
+  });
+}
