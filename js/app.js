@@ -80,15 +80,21 @@ function download() {
 }
 
 function saveToCache(){
-  console.log('Saving data');
-  theRecorder.stop();
-  theStream.getTracks()[0].stop();
-
-  var blob = new Blob(recordedChunks, {type: "video/webm"});
-  var url = (window.URL || window.webkitURL).createObjectURL(blob);
-  //in cache einfügen
-  caches.open('video').then(function(cache) {
-    cache.add(url);
-  });
-   
-}
+    console.log('Speichere Daten');
+    theRecorder.stop();
+    theStream.getTracks()[0].stop();
+  
+    // Speichern Sie das Blob im Cache
+    var url = URL.createObjectURL(blob);
+    caches.open('video-cache')
+      .then(cache => {
+        return cache.add(url);
+      })
+      .then(() => {
+        console.log('Video erfolgreich im Cache gespeichert.');
+      })
+      .catch(error => {
+        console.error('Fehler beim Speichern des Videos im Cache:', error);
+      });
+  }
+  
