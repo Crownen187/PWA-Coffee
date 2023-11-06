@@ -85,15 +85,14 @@ function videoToCache() {
   theStream.getTracks()[0].stop();
 
   var blob = new Blob(recordedChunks, { type: "video/webm" });
-  var url = (window.URL || window.webkitURL).createObjectURL(blob);
 
-  var a = document.createElement("a");
-  document.body.appendChild(a);
-  a.style = "display: none";
-  a.href = url;
+  // Create a Blob URL for the video Blob
+  var url = URL.createObjectURL(blob);
 
-  window.caches.open('video-cache').then(function (cache) {
-    cache.put(a.href, new Response(blob)).then(function () {
+  // Open the cache
+  caches.open('video-cache').then(function (cache) {
+    // Store the video URL in the cache
+    cache.add(url).then(function () {
       console.log('Video cached!');
     }).catch(function (error) {
       console.error('Error caching video:', error);
