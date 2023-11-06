@@ -39,8 +39,9 @@ video#gumVideo {
 }
 
 .container button {
+  flex: 1; /* Gleichmäßige Verteilung des verfügbaren Raums */
   margin: 10px;
-  padding: 10px 20px;
+  padding: 10px;
   font-size: 16px;
   background-color: #283b28;
   color: #fff;
