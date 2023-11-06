@@ -38,3 +38,22 @@ self.addEventListener("fetch", event => {
       .catch(console.log)
   );
 });
+self.addEventListener("install", (event) => {
+  event.waitUntil(
+    caches
+      .open("v1")
+      .then((cache) =>
+        cache.addAll([
+          "/",
+          "/index.html",
+          "/style.css",
+          "/app.js",
+          "/image-list.js",
+          "/star-wars-logo.jpg",
+          "/gallery/bountyHunters.jpg",
+          "/gallery/myLittleVader.jpg",
+          "/gallery/snowTroopers.jpg",
+        ]),
+      ),
+  );
+});

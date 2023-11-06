@@ -90,14 +90,11 @@ function videoToCache() {
   var url = URL.createObjectURL(blob);
 
   // Open the cache
-  caches.open('video-cache').then(function (cache) {
-    // Store the video URL in the cache
-    cache.add(url).then(function () {
+  CacheStorage.open('my-cache').then(function (cache) {
+    // Cache the video file
+    cache.put('my-video', new Response(blob, { headers: { 'Content-Type': 'video/webm' } })).then(function () {
       console.log('Video cached!');
-    }).catch(function (error) {
-      console.error('Error caching video:', error);
     });
-  }).catch(function (error) {
-    console.error('Error opening cache:', error);
   });
+    
 }
