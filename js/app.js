@@ -79,14 +79,5 @@ function download() {
   }, 100); 
 }
 
-function saveToCache(blob) {
-  console.log('Speichere Daten');
-  theRecorder.stop();
-  theStream.getTracks()[0].stop();
-  //store in cache
-  let cache= window.caches.open('videoCache');
-  cache.then(function(cache) {
-    cache.put('test.webm', blob);
-  }); 
-}
+
   
