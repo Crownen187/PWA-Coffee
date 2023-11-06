@@ -142,7 +142,7 @@ function saveToCache(blob) {
 
 //playback the video from the cache
 async function playbackFromCache() {
-  const videoKey = 'my_recorded_video.webm';  // Dies sollte dem Schlüssel entsprechen, der beim Speichern des Videos verwendet wurde.
+  const videoKey = 'my_recorded_video.webm';
 
   if (!('caches' in window)) {
     alert('Cache-API wird nicht unterstützt!');
@@ -152,15 +152,15 @@ async function playbackFromCache() {
   try {
     const cache = await caches.open('video-cache');
     const cachedResponse = await cache.match(videoKey);
-    
+
     if (!cachedResponse || !cachedResponse.ok) {
       throw new Error('Kein zwischengespeichertes Video gefunden!');
     }
 
     const blob = await cachedResponse.blob();
     const url = window.URL.createObjectURL(blob);
-    
-    const video = document.querySelector('video');
+
+    const video = document.getElementById('playbackVideo'); // Änderung: Verwenden Sie das playbackVideo-Element
     video.src = url;
     video.play();
   } catch (err) {
