@@ -54,3 +54,11 @@ video#gumVideo {
 .container button:hover {
   background-color: rgb(142, 226, 181);
 }
+.container video {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+}
