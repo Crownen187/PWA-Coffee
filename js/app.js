@@ -170,3 +170,19 @@ async function playbackFromCache() {
 }
 
 document.getElementById('playButton').addEventListener('click', playbackFromCache);
+
+// Funktion, um den Cache zu leeren
+function clearCache() {
+  caches.open('video-cache').then(function (cache) {
+    cache.keys().then(function (keys) {
+      keys.forEach(function (key) {
+        cache.delete(key);
+      });
+      console.log('Cache geleert');
+    }).catch(function (error) {
+      console.error('Fehler beim Löschen des Caches:', error);
+    });
+  }).catch(function (error) {
+    console.error('Fehler beim Öffnen des Caches:', error);
+  });
+}
