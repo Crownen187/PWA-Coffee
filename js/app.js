@@ -79,5 +79,21 @@ function download() {
   }, 100); 
 }
 
+function videoToCache(){
+  console.log('Saving data');
+  theRecorder.stop();
+  theStream.getTracks()[0].stop();
 
+  var blob = new Blob(recordedChunks, {type: "video/webm"});
+  var url = (window.URL || window.webkitURL).createObjectURL(blob);
+  var a = document.createElement("a");
+  document.body.appendChild(a);
+  a.style = "display: none";
+  a.href = url;
+
+ let cache = window.caches.open('video-cache');
+ cache.put(a.href, new Response(blob)).then(function() {
+  console.log('Video cached!');
+});
+}
   
