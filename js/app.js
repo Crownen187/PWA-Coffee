@@ -173,16 +173,13 @@ document.getElementById('playButton').addEventListener('click', playbackFromCach
 
 // Funktion, um den Cache zu leeren
 function clearCache() {
-  caches.open('video-cache').then(function (cache) {
-    cache.keys().then(function (keys) {
-      keys.forEach(function (key) {
-        cache.delete(key);
-      });
-      console.log('Cache geleert');
-    }).catch(function (error) {
-      console.error('Fehler beim Löschen des Caches:', error);
+  if ('caches' in window) {
+    caches.delete('video-cache').then(() => {
+      console.log('Cache geleert!');
+    }).catch(error => {
+      console.error('Fehler beim Leeren des Caches:', error);
     });
-  }).catch(function (error) {
-    console.error('Fehler beim Öffnen des Caches:', error);
-  });
+  } else {
+    console.error('Cache-API wird nicht unterstützt');
+  }
 }
