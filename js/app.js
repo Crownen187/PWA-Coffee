@@ -139,3 +139,34 @@ function saveToCache(blob) {
     console.error('Cache API not supported');
   }
 }
+
+//playback the video from the cache
+async function playbackFromCache() {
+  const videoKey = 'my_recorded_video.webm';  // Dies sollte dem Schlüssel entsprechen, der beim Speichern des Videos verwendet wurde.
+
+  if (!('caches' in window)) {
+    alert('Cache-API wird nicht unterstützt!');
+    return;
+  }
+
+  try {
+    const cache = await caches.open('video-cache');
+    const cachedResponse = await cache.match(videoKey);
+    
+    if (!cachedResponse || !cachedResponse.ok) {
+      throw new Error('Kein zwischengespeichertes Video gefunden!');
+    }
+
+    const blob = await cachedResponse.blob();
+    const url = window.URL.createObjectURL(blob);
+    
+    const video = document.querySelector('video');
+    video.src = url;
+    video.play();
+  } catch (err) {
+    console.error('Fehler beim Abspielen des Videos aus dem Cache:', err);
+    alert(`Fehler: ${err.message}`);
+  }
+}
+
+document.getElementById('playButton').addEventListener('click', playbackFromCache);
