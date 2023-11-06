@@ -16,10 +16,12 @@ p.borderBelow {
 }
 
 video {
-  vertical-align: top;
-  --width: 25vw;
-  width: var(--width);
-  height: calc(var(--width) * 0.5625);
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  display: flex;
 }
 
 video:last-of-type {
