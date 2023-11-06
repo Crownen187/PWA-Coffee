@@ -14,26 +14,17 @@
   </head>
   <body>
     <div>
-      <div>
-        <video autoplay style="height: 180px; width: 240px;" poster="https://image.freepik.com/free-icon/video-camera-symbol_318-40225.png"></video>
-        <p><button onclick="getStream()">Grab video & start recording</button></p>
-        <p><button onclick="stopRecordingAndSaveToCache()">Stop & Save to Cache</button></p>
-        <p><button onclick="downloadFromCache()">Download Video from Cache</button></p>
-    </div>
-    <div>
-        <video id="playbackVideo" autoplay controls style="height: 180px; width: 240px;"></video>
-        <p><button id="playButton">Play Video from Cache</button></p>
-        <p><button onclick="clearCache()">Cache leeren</button></p>
-    </div>
-    tton onclick="getStream()">Grab video & start recording</button></p>
-        <p><button onclick="stopRecordingAndSaveToCache()">Stop & Save to Cache</button></p>
-        <p><button onclick="downloadFromCache()">Download Video from Cache</button></p>
-        <p><button id="playButton">Play Video from Cache</button></p>
-        <p><button onclick="clearCache()">Cache leeren</button></p>
-    </div>
-    
-
-    </div>
+      <video autoplay style="height: 180px; width: 240px;" poster="https://image.freepik.com/free-icon/video-camera-symbol_318-40225.png"></video>
+      <p><button onclick="getStream()">Grab video & start recording</button></p>
+      <p><button onclick="stopRecordingAndSaveToCache()">Stop & Save to Cache</button></p>
+      <p><button onclick="downloadFromCache()">Download Video from Cache</button></p>
+  </div>
+  <div>
+      <video id="playbackVideo" autoplay controls style="height: 180px; width: 240px;"></video>
+      <p><button id="playButton">Play Video from Cache</button></p>
+      <p><button onclick="clearCache()">Cache leeren</button></p>
+  </div>
+  
     <script src="js/app.js"></script>
   </body>
 </html>
