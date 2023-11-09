@@ -50,7 +50,7 @@ body {
 }
 
 video {
-  max-width: 100%;
+  max-width: auto;
   height: auto;
   border: 2px solid #333;
   border-radius: 8px;
