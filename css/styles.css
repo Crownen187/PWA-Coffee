@@ -1,40 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Nunito:400,700&display=swap");
-button {
-  margin: 0 3px 10px 0;
-  padding-left: 2px;
-  padding-right: 2px;
-  width: 99px;
-}
-
-button:last-of-type {
-  margin: 0;
-}
-
-p.borderBelow {
-  margin: 0 0 20px 0;
-  padding: 0 0 20px 0;
-}
-
-video {
-  width: auto;
-  max-width: auto;
-  height: auto;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  display: flex;
-
-}
-
-video:last-of-type {
-  margin: 0 0 20px 0;
-}
-
-video#gumVideo {
-  margin: 0 20px 20px 0;
-}
 
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Nunito', sans-serif;
   background-color: #f5f5f5;
   margin: 0;
   padding: 0;
@@ -46,30 +13,37 @@ body {
 }
 
 .video-container {
-  margin-bottom: auto;
+  margin-bottom: 20px;
 }
 
 video {
-  max-width: auto;
+  width: 100%;
+  max-width: 100%;
   height: auto;
   border: 2px solid #333;
   border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  display: block;
 }
 
 .container {
-  margin-top: auto;
+  margin-top: 10px;
   text-align: center;
 }
 
 button {
   padding: 10px;
-  margin: 5px;
+  margin: 0 5px;
   font-size: 16px;
   cursor: pointer;
   background-color: #4CAF50;
   color: white;
   border: none;
   border-radius: 4px;
+}
+
+button:last-of-type {
+  margin-right: 0;
 }
 
 button:hover {
@@ -83,4 +57,3 @@ button:hover {
 #playButton:hover {
   background-color: #0b7dda;
 }
-
