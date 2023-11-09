@@ -46,7 +46,7 @@ body {
 }
 
 .video-container {
-  margin-bottom: 5px;
+  margin-bottom: auto;
 }
 
 video {
@@ -57,7 +57,7 @@ video {
 }
 
 .container {
-  margin-top: 5px;
+  margin-top: auto;
   text-align: center;
 }
 
