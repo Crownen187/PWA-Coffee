@@ -13,14 +13,13 @@
 
   </head>
   <body>
-    <div id="container" class="video-container">
+    <div id="container" class="container">
       <video autoplay poster="https://image.freepik.com/free-icon/video-camera-symbol_318-40225.png"></video>
-      <div class="container">
         <button onclick="getStream()">Grab video & start recording</button>
         <button onclick="stopRecordingAndSaveToCache()">Stop & Save to Cache</button>
         <button onclick="downloadFromCache()">Download Video from Cache</button>
       </div>
-    </div>
+    
     <div id="container" class="video-container">
       <video id="playbackVideo" autoplay controls></video>
       <div class="container">
