@@ -39,7 +39,9 @@ video#gumVideo {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 20px 0; /* Adjust the top and bottom margin as needed */
 }
+
 
 .container button {
   flex: 1; /* Gleichmäßige Verteilung des verfügbaren Raums */
