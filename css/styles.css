@@ -84,3 +84,21 @@ button:hover {
   background-color: #0b7dda;
 }
 
+.btn-file {
+  position: relative;
+  overflow: hidden;
+  margin: 10px;
+}
+.btn-file input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  opacity: 0;
+  outline: none;
+  background: #fff;
+  cursor: inherit;
+  display: block;
+}
+
