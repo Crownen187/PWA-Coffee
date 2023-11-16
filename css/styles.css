@@ -57,8 +57,8 @@ video {
 }
 
 .container {
-  margin-top: 10px;
-  text-align: center;
+  perspective: 300;
+  -webkit-perspective: 300;
 }
 
 #imgLogo {
