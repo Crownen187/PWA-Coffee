@@ -61,6 +61,14 @@ video {
   text-align: center;
 }
 
+#imgLogo {
+  width: 275px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  padding: 15px;
+}
+
 button {
   padding: 10px;
   margin: 5px;
