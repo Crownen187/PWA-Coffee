@@ -73,10 +73,11 @@
             </nav>
           </div>
           <main class="mdl-layout__content">
-            <h1>Expense Tracker</h1>
+            <<h1>Expense Tracker</h1>
 
             <label for="balanceInput">Starting Balance:</label>
             <input type="number" id="balanceInput" placeholder="Enter starting balance">
+            <button onclick="setInitialEntry()">Initial Entry</button>
         
             <table id="expenseTable">
                 <thead>
@@ -106,8 +107,29 @@
             <button onclick="clearCache()">Clear Cache</button>
         
             <script>
-                let balance = balanceInput.value;
+                let balance = 0;
                 let expenses = [];
+        
+                // Load expenses from local storage
+                if (localStorage.getItem('expenses')) {
+                    expenses = JSON.parse(localStorage.getItem('expenses'));
+                    updateTable();
+                }
+        
+                function setInitialEntry() {
+                    const startingBalance = parseFloat(document.getElementById('balanceInput').value) || 0;
+                    balance = startingBalance;
+                    const initialEntry = {
+                        description: 'Starting Balance',
+                        date: new Date().toLocaleDateString(),
+                        category: 'Initial Entry',
+                        amount: 0,
+                        balance: startingBalance,
+                    };
+                    expenses.push(initialEntry);
+                    updateTable();
+                    updateLocalStorage();
+                }
         
                 function addExpense() {
                     const description = document.getElementById('descriptionInput').value;
@@ -125,6 +147,7 @@
                     expenses.push({ description, date, category, amount, balance: newBalance });
                     updateTable();
                     updateBalance(newBalance);
+                    updateLocalStorage();
         
                     // Clear input fields
                     document.getElementById('descriptionInput').value = '';
@@ -149,7 +172,12 @@
                     balance = newBalance;
                 }
         
+                function updateLocalStorage() {
+                    localStorage.setItem('expenses', JSON.stringify(expenses));
+                }
+        
                 function clearCache() {
+                    localStorage.removeItem('expenses');
                     expenses = [];
                     balance = 0;
                     updateTable();
