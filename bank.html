@@ -73,7 +73,7 @@
             </nav>
           </div>
           <main class="mdl-layout__content">
-            <<h1>Expense Tracker</h1>
+            <h1>Expense Tracker</h1>
 
             <label for="balanceInput">Starting Balance:</label>
             <input type="number" id="balanceInput" placeholder="Enter starting balance">
@@ -107,83 +107,94 @@
             <button onclick="clearCache()">Clear Cache</button>
         
             <script>
-                let balance = 0;
-                let expenses = [];
-        
-                // Load expenses from local storage
-                if (localStorage.getItem('expenses')) {
-                    expenses = JSON.parse(localStorage.getItem('expenses'));
-                    updateTable();
-                }
-        
-                function setInitialEntry() {
-                    const startingBalance = parseFloat(document.getElementById('balanceInput').value) || 0;
-                    balance = startingBalance;
-                    const initialEntry = {
-                        description: 'Starting Balance',
-                        date: new Date().toLocaleDateString(),
-                        category: 'Initial Entry',
-                        amount: 0,
-                        balance: startingBalance,
-                    };
-                    expenses.push(initialEntry);
-                    updateTable();
-                    updateLocalStorage();
-                }
-        
-                function addExpense() {
-                    const description = document.getElementById('descriptionInput').value;
-                    const category = document.getElementById('categoryInput').value;
-                    const amount = parseFloat(document.getElementById('amountInput').value);
-        
-                    if (!description || !category || isNaN(amount)) {
-                        alert('Please fill in all fields with valid values.');
-                        return;
-                    }
-        
-                    const date = new Date().toLocaleDateString();
-                    const newBalance = balance - amount;
-        
-                    expenses.push({ description, date, category, amount, balance: newBalance });
-                    updateTable();
-                    updateBalance(newBalance);
-                    updateLocalStorage();
-        
-                    // Clear input fields
-                    document.getElementById('descriptionInput').value = '';
-                    document.getElementById('categoryInput').value = '';
-                    document.getElementById('amountInput').value = '';
-                }
-        
-                function updateTable() {
-                    const tableBody = document.querySelector('#expenseTable tbody');
-                    tableBody.innerHTML = '';
-        
-                    expenses.forEach(expense => {
-                        const row = tableBody.insertRow();
-                        Object.values(expense).forEach(value => {
-                            const cell = row.insertCell();
-                            cell.textContent = value;
-                        });
-                    });
-                }
-        
-                function updateBalance(newBalance) {
-                    balance = newBalance;
-                }
-        
-                function updateLocalStorage() {
-                    localStorage.setItem('expenses', JSON.stringify(expenses));
-                }
-        
-                function clearCache() {
-                    localStorage.removeItem('expenses');
-                    expenses = [];
-                    balance = 0;
-                    updateTable();
-                    updateBalance(0);
-                }
-            </script>
+              let balance = 0;
+              let expenses = [];
+          
+              // Load balance from local storage
+              if (localStorage.getItem('balance')) {
+                  balance = parseFloat(localStorage.getItem('balance')) || 0;
+              }
+          
+              // Load expenses from local storage
+              if (localStorage.getItem('expenses')) {
+                  expenses = JSON.parse(localStorage.getItem('expenses'));
+                  updateTable();
+              }
+          
+              function setInitialEntry() {
+                  const startingBalance = parseFloat(document.getElementById('balanceInput').value) || 0;
+                  balance = startingBalance;
+                  localStorage.setItem('balance', balance);
+          
+                  const initialEntry = {
+                      description: 'Starting Balance',
+                      date: new Date().toLocaleDateString(),
+                      category: 'Initial Entry',
+                      amount: 0,
+                      balance: startingBalance,
+                  };
+                  expenses.push(initialEntry);
+                  updateTable();
+                  updateLocalStorage();
+              }
+          
+              function addExpense() {
+                  const description = document.getElementById('descriptionInput').value;
+                  const category = document.getElementById('categoryInput').value;
+                  const amount = parseFloat(document.getElementById('amountInput').value);
+          
+                  if (!description || !category || isNaN(amount)) {
+                      alert('Please fill in all fields with valid values.');
+                      return;
+                  }
+          
+                  const date = new Date().toLocaleDateString();
+                  const newBalance = balance - amount;
+          
+                  expenses.push({ description, date, category, amount, balance: newBalance });
+                  updateTable();
+                  updateBalance(newBalance);
+                  updateLocalStorage();
+          
+                  // Clear input fields
+                  document.getElementById('descriptionInput').value = '';
+                  document.getElementById('categoryInput').value = '';
+                  document.getElementById('amountInput').value = '';
+              }
+          
+              function updateTable() {
+                  const tableBody = document.querySelector('#expenseTable tbody');
+                  tableBody.innerHTML = '';
+          
+                  expenses.forEach(expense => {
+                      const row = tableBody.insertRow();
+                      Object.values(expense).forEach(value => {
+                          const cell = row.insertCell();
+                          cell.textContent = value;
+                      });
+                  });
+              }
+          
+              function updateBalance(newBalance) {
+                  balance = newBalance;
+                  localStorage.setItem('balance', balance);
+              }
+          
+              function updateLocalStorage() {
+                  localStorage.setItem('expenses', JSON.stringify(expenses));
+              }
+          
+              function clearCache() {
+                  localStorage.removeItem('expenses');
+                  localStorage.removeItem('balance');
+                  expenses = [];
+                  balance = 0;
+                  updateTable();
+                  updateBalance(0);
+              }
+          </script>
+          
+
           </main>
         </div>
     
