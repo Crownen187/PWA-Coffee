@@ -117,6 +117,7 @@ button:hover {
 
 .container {
   border: 1px solid #ccc;
+  background-color: lch(from center l c h);
   width: 120px;
   height: 400px;
   float: left;
