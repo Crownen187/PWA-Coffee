@@ -102,17 +102,3 @@ button:hover {
   display: block;
 }
 
-.containerDragandDrop {
-  width: 100%;
-  min-height: 100vh;
-  background: #333;
-  align-items: center;
-  justify-content: center;
-  
-}
-#left, #right, #center {
-  width: 300px;
- min-height: 400px;
-  margin: 20px;
-  border:2px dashed #fff;
-}
