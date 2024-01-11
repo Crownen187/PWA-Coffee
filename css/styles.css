@@ -114,3 +114,15 @@ button:hover {
   text-align: center;
   -ms-touch-action: none;
 }
+
+.container {
+  border: 1px solid #ccc;
+  width: 120px;
+  height: 400px;
+  float: left;
+  margin: 10px;
+}
+
+.test-element.ondrag {
+  opacity: 0.5;
+}
