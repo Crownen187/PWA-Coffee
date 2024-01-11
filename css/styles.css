@@ -102,28 +102,53 @@ button:hover {
   display: block;
 }
 
-.test-element {
-  height: 100px;
-  background-color: black;
-  width: 100px;
-  z-index: 5;
-  position: absolute;
-  top: 15px;
-  left: 15px;
-  color: white;
-  text-align: center;
-  -ms-touch-action: none;
-}
-
 .container {
   border: 1px solid #ccc;
-  background-color: lch(from center l c h);
-  width: 120px;
-  height: 400px;
-  float: left;
+  width: 220px;
+  height: auto;
   margin: 10px;
+  padding: 10px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  float: left;
+  text-align: center;
+}
+
+.test-element {
+  height: 100px;
+  background-color: #3498db;
+  width: 100%;
+  z-index: 5;
+  position: relative;
+  color: white;
+  text-align: center;
+  line-height: 100px;
+  margin-bottom: 10px;
+  cursor: grab;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
 }
 
 .test-element.ondrag {
-  opacity: 0.5;
+  opacity: 0.7;
+  cursor: grabbing;
+}
+
+#todo {
+  border-color: #e74c3c;
+}
+
+#inProgress {
+  border-color: #f39c12;
+}
+
+#done {
+  border-color: #2ecc71;
+}
+
+.container h2 {
+  margin: 0;
+  color: #555;
 }
