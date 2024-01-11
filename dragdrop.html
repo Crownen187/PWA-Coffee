@@ -17,15 +17,38 @@
   </head>
   <body>
     <style>
-        .demo-layout-transparent {
-          background: url('../assets/demos/transparent.jpg') center / cover;
-        }
-        .demo-layout-transparent .mdl-layout__header,
-        .demo-layout-transparent .mdl-layout__drawer-button {
-        
-             background-color: silver;
-          color: white;
-        }
+       /* CSS für das Hamburger-Icon */
+.menu-icon {
+  display: none;
+  cursor: pointer;
+}
+
+.mdl-layout__drawer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 16px;
+}
+
+@media screen and (max-width: 600px) {
+  /* Verstecke die Navigation und zeige das Hamburger-Icon */
+  .mdl-navigation {
+    display: none;
+  }
+
+  .menu-icon {
+    display: block;
+  }
+
+  /* Verberge den Titel, wenn das Menü geöffnet ist */
+  .mdl-layout__header .mdl-layout-title {
+    display: block;
+  }
+  .mdl-layout__header.is-visible .mdl-layout-title {
+    display: none;
+  }
+}
+
 
         #app {
       display: flex;
