@@ -26,6 +26,24 @@
              background-color: silver;
           color: white;
         }
+        .kanban-column {
+      float: left;
+      width: 33.33%;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+
+    .test-element {
+      height: 100px;
+      background-color: black;
+      width: 100px;
+      z-index: 5;
+      position: relative;
+      margin: 10px 0;
+      color: white;
+      text-align: center;
+      -ms-touch-action: none;
+    }
         </style>
         
         <div class="demo-layout-transparent mdl-layout mdl-js-layout">
@@ -54,13 +72,90 @@
             </nav>
           </div>
           <main class="mdl-layout__content">
-            
+            <div class="kanban-column" id="todo-column">
+                <h2>To Do</h2>
+                <div class="test-element" draggable="true" contenteditable="true">Task 1</div>
+                <div class="test-element" draggable="true" contenteditable="true">Task 2</div>
+              </div>
+              
+              <div class="kanban-column" id="in-progress-column">
+                <h2>In Progress</h2>
+              </div>
+              
+              <div class="kanban-column" id="done-column">
+                <h2>Done</h2>
+              </div>
           </main>
         </div>
     
         <script src="js/app.js"></script>
         <script>
-      
+      function startDrag(e) {
+    e.preventDefault(); // Prevent the default behavior of dragging down and refreshing the page
+
+    this.ontouchmove = this.onmspointermove = moveDrag;
+
+    this.ontouchend = this.onmspointerup = function () {
+      this.ontouchmove = this.onmspointermove = null;
+      this.ontouchend = this.onmspointerup = null;
+    }
+
+    var pos = [this.offsetLeft, this.offsetTop];
+    var that = this;
+    var origin = getCoors(e);
+
+    function moveDrag(e) {
+      e.preventDefault(); // Prevent the default behavior of dragging down and refreshing the page
+
+      var currentPos = getCoors(e);
+      var deltaX = currentPos[0] - origin[0];
+      var deltaY = currentPos[1] - origin[1];
+      that.style.left = (pos[0] + deltaX) + 'px';
+      that.style.top = (pos[1] + deltaY) + 'px';
+      return false; // cancels scrolling
+    }
+
+    function getCoors(e) {
+      var coors = [];
+      if (e.targetTouches && e.targetTouches.length) {
+        var thisTouch = e.targetTouches[0];
+        coors[0] = thisTouch.clientX;
+        coors[1] = thisTouch.clientY;
+      } else {
+        coors[0] = e.clientX;
+        coors[1] = e.clientY;
+      }
+      return coors;
+    }
+  }
+
+  var elements = document.querySelectorAll('.test-element');
+  [].forEach.call(elements, function (element) {
+    element.ondragstart = function (e) {
+      e.dataTransfer.setData('text/plain', null);
+      startDrag.call(element, e);
+    };
+  });
+
+  var columns = document.querySelectorAll('.kanban-column');
+  columns.forEach(function (column) {
+    column.ondragover = function (e) {
+      e.preventDefault();
+    };
+
+    column.ondrop = function (e) {
+      e.preventDefault();
+      var data = e.dataTransfer.getData('text/plain');
+      var draggedElement = document.getElementById(data);
+
+      // Append the dragged element to the drop target
+      column.appendChild(draggedElement);
+    };
+  });
+
+  document.ongesturechange = function () {
+    return false;
+  };
         </script>
       </body>
     </html>
