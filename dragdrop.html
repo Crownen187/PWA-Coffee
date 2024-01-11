@@ -150,12 +150,12 @@
     
         <script src="js/app.js"></script>
         <script>
-           // Funktion zum Aktivieren des Drag-and-Drop-Vorgangs
+           // Funktion zum Aktivieren des Drag-and-Drop-Vorgangs 
             function allowDrop(event) {
                 event.preventDefault();
             }
         
-            // Funktion zum Behandeln des Drag-Ereignisses und Speichern der ID des gezogenen Elements
+            // Funktion zum Behandeln des Drag-Ereignisses und Speichern der ID des gezogenen Elements (Zum Bewegen die Karte gedrückt halten und in eine andere Spalte ziehen)
             function drag(event) {
                 event.dataTransfer.setData("text/plain", event.target.id);
             }
