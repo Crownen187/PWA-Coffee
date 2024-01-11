@@ -29,15 +29,17 @@
 
         #app {
       display: flex;
-      max-width: 1200px;
+      flex-wrap: wrap;
+      justify-content: center;
     }
 
     .column {
       flex: 1;
-      min-width: 200px; /* Mindestbreite für Spalten */
+      min-width: 200px;
+      max-width: 400px;
       background-color: #f5f5f5;
       border-radius: 8px;
-      margin: 0 10px;
+      margin: 10px;
       padding: 15px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
@@ -49,8 +51,8 @@
     }
 
     .card {
-      min-width: 200px; /* Mindestbreite für Karten */
-      max-width: 300px; /* Maximale Breite für Karten */
+      min-width: 200px;
+      max-width: 300px;
       background-color: #fff;
       border: 1px solid #ddd;
       border-radius: 4px;
@@ -67,11 +69,6 @@
       background-color: #f9f9f9;
     }
 
-    .edit-input {
-      display: block;
-      margin-bottom: 5px;
-    }
-
     .add-card-button {
       background-color: #4caf50;
       color: white;
@@ -79,7 +76,7 @@
       padding: 10px;
       border-radius: 4px;
       cursor: pointer;
-      margin-top: 10px;
+      margin: 10px;
     }
 
     .delete-button {
@@ -105,7 +102,7 @@
                 <a class="mdl-navigation__link" href="homepage.html">Homepage</a>
                 <a class="mdl-navigation__link" href="index.html">Index</a>
                 <a class="mdl-navigation__link" href="baterie.html">Batterie</a>
-                <a class="mdl-navigation__link" href="draganddrop.html">Drag and Drop</a>
+                <a class="mdl-navigation__link" href="dragdrop.html">Drag and Drop</a>
               </nav>
             </div>
           </header>
@@ -115,7 +112,7 @@
               <a class="mdl-navigation__link" href="homepage.html">homepage</a>
               <a class="mdl-navigation__link" href="index.html">index</a>
               <a class="mdl-navigation__link" href="baterie.html">Batterie</a>
-              <a class="mdl-navigation__link" href="draganddrop.html">Drag and Drop</a>
+              <a class="mdl-navigation__link" href="dragdrop.html">Drag and Drop</a>
             </nav>
           </div>
           <main class="mdl-layout__content">
@@ -135,14 +132,13 @@
                 </div>
                 <div class="column" id="inProgress" ondrop="drop(event)" ondragover="allowDrop(event)">
                   <div class="column-title" contenteditable="true" oninput="updateColumnTitle('inProgress')">In Progress</div>
-                  <!-- Cards in progress go here -->
                 </div>
                 <div class="column" id="done" ondrop="drop(event)" ondragover="allowDrop(event)">
                   <div class="column-title" contenteditable="true" oninput="updateColumnTitle('done')">Done</div>
-                  <!-- Completed tasks go here -->
                 </div>
               </div>
               <button class="add-card-button" onclick="addCard()">Add Card</button>
+            
             
           </main>
         </div>
@@ -192,7 +188,6 @@
       var newCardDescription = prompt("Enter description for new card (max 100 characters):");
 
       if (newCardTitle !== null && newCardDescription !== null) {
-        // Truncate title and description to specified lengths
         newCardTitle = newCardTitle.substring(0, 50);
         newCardDescription = newCardDescription.substring(0, 100);
 
@@ -228,10 +223,9 @@
 
     function updateColumnTitle(columnId) {
       var newTitle = document.getElementById(columnId).getElementsByClassName('column-title')[0].innerText;
-      // You can store or process the new column title as needed
       console.log("New title for column " + columnId + ": " + newTitle);
     }
-        </script>
+  </script>
       </body>
     </html>
     
