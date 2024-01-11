@@ -138,14 +138,20 @@ button:hover {
 
 #todo {
   border-color: #e74c3c;
+  min-height: 400px;
+  width: 200px;
 }
 
 #inProgress {
   border-color: #f39c12;
+  min-height: 400px;
+  width: 200px;
 }
 
 #done {
   border-color: #2ecc71;
+  min-height: 400px;
+  width: 200px;
 }
 
 .container h2 {
