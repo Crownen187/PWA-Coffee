@@ -26,23 +26,70 @@
              background-color: silver;
           color: white;
         }
-        .kanban-column {
-      float: left;
-      width: 33.33%;
-      padding: 10px;
-      box-sizing: border-box;
+
+        #app {
+      display: flex;
+      max-width: 1200px;
     }
 
-    .test-element {
-      height: 100px;
-      background-color: black;
-      width: 100px;
-      z-index: 5;
-      position: relative;
-      margin: 10px 0;
+    .column {
+      flex: 1;
+      min-width: 200px; /* Mindestbreite für Spalten */
+      background-color: #f5f5f5;
+      border-radius: 8px;
+      margin: 0 10px;
+      padding: 15px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .column-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .card {
+      min-width: 200px; /* Mindestbreite für Karten */
+      max-width: 300px; /* Maximale Breite für Karten */
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 12px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .card:hover {
+      background-color: #f9f9f9;
+    }
+
+    .edit-input {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .add-card-button {
+      background-color: #4caf50;
       color: white;
-      text-align: center;
-      -ms-touch-action: none;
+      border: none;
+      padding: 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .delete-button {
+      background-color: #ff5555;
+      color: white;
+      border: none;
+      padding: 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-left: 5px;
     }
         </style>
         
@@ -72,90 +119,118 @@
             </nav>
           </div>
           <main class="mdl-layout__content">
-            <div class="kanban-column" id="todo-column">
-                <h2>To Do</h2>
-                <div class="test-element" draggable="true" contenteditable="true">Task 1</div>
-                <div class="test-element" draggable="true" contenteditable="true">Task 2</div>
+            <div id="app">
+                <div class="column" id="todo" ondrop="drop(event)" ondragover="allowDrop(event)">
+                  <div class="column-title" contenteditable="true" oninput="updateColumnTitle('todo')">To Do</div>
+                  <div class="card" id="card1" draggable="true" ondragstart="drag(event)">
+                    <span class="card-title" onclick="editCardTitle('card1')">Task 1</span><br>
+                    <span class="card-description" onclick="editCardDescription('card1')">Description 1</span>
+                    <button class="delete-button" onclick="deleteCard('card1')">Delete</button>
+                  </div>
+                  <div class="card" id="card2" draggable="true" ondragstart="drag(event)">
+                    <span class="card-title" onclick="editCardTitle('card2')">Task 2</span><br>
+                    <span class="card-description" onclick="editCardDescription('card2')">Description 2</span>
+                    <button class="delete-button" onclick="deleteCard('card2')">Delete</button>
+                  </div>
+                </div>
+                <div class="column" id="inProgress" ondrop="drop(event)" ondragover="allowDrop(event)">
+                  <div class="column-title" contenteditable="true" oninput="updateColumnTitle('inProgress')">In Progress</div>
+                  <!-- Cards in progress go here -->
+                </div>
+                <div class="column" id="done" ondrop="drop(event)" ondragover="allowDrop(event)">
+                  <div class="column-title" contenteditable="true" oninput="updateColumnTitle('done')">Done</div>
+                  <!-- Completed tasks go here -->
+                </div>
               </div>
-              
-              <div class="kanban-column" id="in-progress-column">
-                <h2>In Progress</h2>
-              </div>
-              
-              <div class="kanban-column" id="done-column">
-                <h2>Done</h2>
-              </div>
+              <button class="add-card-button" onclick="addCard()">Add Card</button>
+            
           </main>
         </div>
     
         <script src="js/app.js"></script>
         <script>
-      function startDrag(e) {
-    e.preventDefault(); // Prevent the default behavior of dragging down and refreshing the page
-
-    this.ontouchmove = this.onmspointermove = moveDrag;
-
-    this.ontouchend = this.onmspointerup = function () {
-      this.ontouchmove = this.onmspointermove = null;
-      this.ontouchend = this.onmspointerup = null;
+       function allowDrop(event) {
+      event.preventDefault();
     }
 
-    var pos = [this.offsetLeft, this.offsetTop];
-    var that = this;
-    var origin = getCoors(e);
-
-    function moveDrag(e) {
-      e.preventDefault(); // Prevent the default behavior of dragging down and refreshing the page
-
-      var currentPos = getCoors(e);
-      var deltaX = currentPos[0] - origin[0];
-      var deltaY = currentPos[1] - origin[1];
-      that.style.left = (pos[0] + deltaX) + 'px';
-      that.style.top = (pos[1] + deltaY) + 'px';
-      return false; // cancels scrolling
+    function drag(event) {
+      event.dataTransfer.setData("text/plain", event.target.id);
     }
 
-    function getCoors(e) {
-      var coors = [];
-      if (e.targetTouches && e.targetTouches.length) {
-        var thisTouch = e.targetTouches[0];
-        coors[0] = thisTouch.clientX;
-        coors[1] = thisTouch.clientY;
-      } else {
-        coors[0] = e.clientX;
-        coors[1] = e.clientY;
-      }
-      return coors;
-    }
-  }
-
-  var elements = document.querySelectorAll('.test-element');
-  [].forEach.call(elements, function (element) {
-    element.ondragstart = function (e) {
-      e.dataTransfer.setData('text/plain', null);
-      startDrag.call(element, e);
-    };
-  });
-
-  var columns = document.querySelectorAll('.kanban-column');
-  columns.forEach(function (column) {
-    column.ondragover = function (e) {
-      e.preventDefault();
-    };
-
-    column.ondrop = function (e) {
-      e.preventDefault();
-      var data = e.dataTransfer.getData('text/plain');
+    function drop(event) {
+      event.preventDefault();
+      var data = event.dataTransfer.getData("text/plain");
       var draggedElement = document.getElementById(data);
+      var droppedColumn = event.target.closest('.column');
 
-      // Append the dragged element to the drop target
-      column.appendChild(draggedElement);
-    };
-  });
+      if (droppedColumn && draggedElement) {
+        droppedColumn.appendChild(draggedElement);
+      }
+    }
 
-  document.ongesturechange = function () {
-    return false;
-  };
+    function editCardTitle(cardId) {
+      var newTitle = prompt("Enter new title:");
+      if (newTitle !== null) {
+        document.getElementById(cardId).getElementsByClassName('card-title')[0].innerText = newTitle;
+      }
+    }
+
+    function editCardDescription(cardId) {
+      var newDescription = prompt("Enter new description:");
+      if (newDescription !== null) {
+        document.getElementById(cardId).getElementsByClassName('card-description')[0].innerText = newDescription;
+      }
+    }
+
+    function deleteCard(cardId) {
+      var card = document.getElementById(cardId);
+      card.parentNode.removeChild(card);
+    }
+
+    function addCard() {
+      var newCardTitle = prompt("Enter title for new card (max 50 characters):");
+      var newCardDescription = prompt("Enter description for new card (max 100 characters):");
+
+      if (newCardTitle !== null && newCardDescription !== null) {
+        // Truncate title and description to specified lengths
+        newCardTitle = newCardTitle.substring(0, 50);
+        newCardDescription = newCardDescription.substring(0, 100);
+
+        var newCard = document.createElement("div");
+        newCard.className = "card";
+        newCard.draggable = true;
+        newCard.id = "card" + (document.querySelectorAll('.card').length + 1);
+        newCard.setAttribute("ondragstart", "drag(event)");
+
+        var titleSpan = document.createElement("span");
+        titleSpan.className = "card-title";
+        titleSpan.innerText = newCardTitle;
+        titleSpan.onclick = function() { editCardTitle(newCard.id); };
+
+        var descriptionSpan = document.createElement("span");
+        descriptionSpan.className = "card-description";
+        descriptionSpan.innerText = newCardDescription;
+        descriptionSpan.onclick = function() { editCardDescription(newCard.id); };
+
+        var deleteButton = document.createElement("button");
+        deleteButton.className = "delete-button";
+        deleteButton.innerText = "Delete";
+        deleteButton.onclick = function() { deleteCard(newCard.id); };
+
+        newCard.appendChild(titleSpan);
+        newCard.appendChild(document.createElement("br"));
+        newCard.appendChild(descriptionSpan);
+        newCard.appendChild(deleteButton);
+
+        document.getElementById("todo").appendChild(newCard);
+      }
+    }
+
+    function updateColumnTitle(columnId) {
+      var newTitle = document.getElementById(columnId).getElementsByClassName('column-title')[0].innerText;
+      // You can store or process the new column title as needed
+      console.log("New title for column " + columnId + ": " + newTitle);
+    }
         </script>
       </body>
     </html>
