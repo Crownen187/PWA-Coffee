@@ -27,7 +27,7 @@
           color: white;
         }
         
-
+ /* CSS für die Kanban-App */
         #app {
       display: flex;
       flex-wrap: wrap;
@@ -96,7 +96,7 @@
             <div class="mdl-layout__header-row">
               <!-- Title -->
               <span class="mdl-layout-title">Title</span>
-              <!-- Add spacer, to align navigation to the right -->
+             
               <div class="mdl-layout-spacer"></div>
               <!-- Navigation -->
               <nav class="mdl-navigation">
@@ -117,10 +117,13 @@
             </nav>
           </div>
           <main class="mdl-layout__content">
+            <!-- app ist der Hauptcontainer für das kanban -->
             <div id="app">
+                <!-- todo ist der "Startcontainer für die Tasks dort werden drei Beispieltasks erstellt " -->
                 <div class="column" id="todo" ondrop="drop(event)" ondragover="allowDrop(event)">
                   <div class="column-title" contenteditable="true" oninput="updateColumnTitle('todo')">To Do</div>
                   <div class="card" id="card1" draggable="true" ondragstart="drag(event)">
+                    <!-- Tasks haben ein Onclickevent damit man sie bearbeitenkann -->
                     <span class="card-title" onclick="editCardTitle('card1')">Task 1</span><br>
                     <span class="card-description" onclick="editCardDescription('card1')">Description 1</span>
                     <button class="delete-button" onclick="deleteCard('card1')">Delete</button>
@@ -131,6 +134,7 @@
                     <button class="delete-button" onclick="deleteCard('card2')">Delete</button>
                   </div>
                 </div>
+                <!-- inProgress und done sind weitere Container in den die Tasks rein gezogen werden können -->
                 <div class="column" id="inProgress" ondrop="drop(event)" ondragover="allowDrop(event)">
                   <div class="column-title" contenteditable="true" oninput="updateColumnTitle('inProgress')">In Progress</div>
                 </div>
@@ -146,87 +150,100 @@
     
         <script src="js/app.js"></script>
         <script>
-       function allowDrop(event) {
-      event.preventDefault();
-    }
-
-    function drag(event) {
-      event.dataTransfer.setData("text/plain", event.target.id);
-    }
-
-    function drop(event) {
-      event.preventDefault();
-      var data = event.dataTransfer.getData("text/plain");
-      var draggedElement = document.getElementById(data);
-      var droppedColumn = event.target.closest('.column');
-
-      if (droppedColumn && draggedElement) {
-        droppedColumn.appendChild(draggedElement);
-      }
-    }
-
-    function editCardTitle(cardId) {
-      var newTitle = prompt("Enter new title:");
-      if (newTitle !== null) {
-        document.getElementById(cardId).getElementsByClassName('card-title')[0].innerText = newTitle;
-      }
-    }
-
-    function editCardDescription(cardId) {
-      var newDescription = prompt("Enter new description:");
-      if (newDescription !== null) {
-        document.getElementById(cardId).getElementsByClassName('card-description')[0].innerText = newDescription;
-      }
-    }
-
-    function deleteCard(cardId) {
-      var card = document.getElementById(cardId);
-      card.parentNode.removeChild(card);
-    }
-
-    function addCard() {
-      var newCardTitle = prompt("Enter title for new card (max 50 characters):");
-      var newCardDescription = prompt("Enter description for new card (max 100 characters):");
-
-      if (newCardTitle !== null && newCardDescription !== null) {
-        newCardTitle = newCardTitle.substring(0, 50);
-        newCardDescription = newCardDescription.substring(0, 100);
-
-        var newCard = document.createElement("div");
-        newCard.className = "card";
-        newCard.draggable = true;
-        newCard.id = "card" + (document.querySelectorAll('.card').length + 1);
-        newCard.setAttribute("ondragstart", "drag(event)");
-
-        var titleSpan = document.createElement("span");
-        titleSpan.className = "card-title";
-        titleSpan.innerText = newCardTitle;
-        titleSpan.onclick = function() { editCardTitle(newCard.id); };
-
-        var descriptionSpan = document.createElement("span");
-        descriptionSpan.className = "card-description";
-        descriptionSpan.innerText = newCardDescription;
-        descriptionSpan.onclick = function() { editCardDescription(newCard.id); };
-
-        var deleteButton = document.createElement("button");
-        deleteButton.className = "delete-button";
-        deleteButton.innerText = "Delete";
-        deleteButton.onclick = function() { deleteCard(newCard.id); };
-
-        newCard.appendChild(titleSpan);
-        newCard.appendChild(document.createElement("br"));
-        newCard.appendChild(descriptionSpan);
-        newCard.appendChild(deleteButton);
-
-        document.getElementById("todo").appendChild(newCard);
-      }
-    }
-
-    function updateColumnTitle(columnId) {
-      var newTitle = document.getElementById(columnId).getElementsByClassName('column-title')[0].innerText;
-      console.log("New title for column " + columnId + ": " + newTitle);
-    }
-  </script>
+           // Funktion zum Aktivieren des Drag-and-Drop-Vorgangs
+            function allowDrop(event) {
+                event.preventDefault();
+            }
+        
+            // Funktion zum Behandeln des Drag-Ereignisses und Speichern der ID des gezogenen Elements
+            function drag(event) {
+                event.dataTransfer.setData("text/plain", event.target.id);
+            }
+        
+            // Funktion zum Behandeln des Drop-Ereignisses und Verschieben des gezogenen Elements
+            function drop(event) {
+                event.preventDefault();
+                var data = event.dataTransfer.getData("text/plain");
+                var draggedElement = document.getElementById(data);
+                var droppedColumn = event.target.closest('.column');
+        
+                if (droppedColumn && draggedElement) {
+                    droppedColumn.appendChild(draggedElement);
+                }
+            }
+        
+            // Funktion zum Bearbeiten des Titels einer Karte
+            function editCardTitle(cardId) {
+                var newTitle = prompt("Enter new title:");
+                if (newTitle !== null) {
+                    document.getElementById(cardId).getElementsByClassName('card-title')[0].innerText = newTitle;
+                }
+            }
+        
+            // Funktion zum Bearbeiten der Beschreibung einer Karte
+            function editCardDescription(cardId) {
+                var newDescription = prompt("Enter new description:");
+                if (newDescription !== null) {
+                    document.getElementById(cardId).getElementsByClassName('card-description')[0].innerText = newDescription;
+                }
+            }
+        
+            // Funktion zum Löschen einer Karte
+            function deleteCard(cardId) {
+                var card = document.getElementById(cardId);
+                card.parentNode.removeChild(card);
+            }
+        
+            // Funktion zum Hinzufügen einer neuen Karte mit Titel und Beschreibung
+            function addCard() {
+                var newCardTitle = prompt("Enter title for new card (max 50 characters):");
+                var newCardDescription = prompt("Enter description for new card (max 100 characters):");
+        
+                if (newCardTitle !== null && newCardDescription !== null) {
+                    // Begrenzen der Länge von Titel und Beschreibung
+                    newCardTitle = newCardTitle.substring(0, 50);
+                    newCardDescription = newCardDescription.substring(0, 100);
+        
+                    // Erstellen eines neuen Karten-Elements
+                    var newCard = document.createElement("div");
+                    newCard.className = "card";
+                    newCard.draggable = true;
+                    newCard.id = "card" + (document.querySelectorAll('.card').length + 1);
+                    newCard.setAttribute("ondragstart", "drag(event)");
+        
+                    // Erstellen von Titel-, Beschreibungs- und Löschen-Elementen für die Karte
+                    var titleSpan = document.createElement("span");
+                    titleSpan.className = "card-title";
+                    titleSpan.innerText = newCardTitle;
+                    titleSpan.onclick = function() { editCardTitle(newCard.id); };
+        
+                    var descriptionSpan = document.createElement("span");
+                    descriptionSpan.className = "card-description";
+                    descriptionSpan.innerText = newCardDescription;
+                    descriptionSpan.onclick = function() { editCardDescription(newCard.id); };
+        
+                    var deleteButton = document.createElement("button");
+                    deleteButton.className = "delete-button";
+                    deleteButton.innerText = "Delete";
+                    deleteButton.onclick = function() { deleteCard(newCard.id); };
+        
+                    // Hinzufügen von Elementen zur Karte und Anhängen an die "todo"-Spalte
+                    newCard.appendChild(titleSpan);
+                    newCard.appendChild(document.createElement("br"));
+                    newCard.appendChild(descriptionSpan);
+                    newCard.appendChild(deleteButton);
+        
+                    document.getElementById("todo").appendChild(newCard);
+                }
+            }
+        
+            // Funktion zum Bearbeiten des Spaltentitels
+            function updateColumnTitle(columnId) {
+                var newTitle = document.getElementById(columnId).getElementsByClassName('column-title')[0].innerText;
+                console.log("New title for column " + columnId + ": " + newTitle);
+            }
+        </script>
+        
       </body>
     </html>
     
