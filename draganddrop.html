@@ -72,7 +72,7 @@
     
         <script src="js/app.js"></script>
         <script>
-          function startDrag(e) {
+       function startDrag(e) {
   this.ontouchmove = moveDrag;
 
   this.ontouchend = function () {
@@ -85,6 +85,7 @@
   var origin = getCoors(e);
 
   function moveDrag(e) {
+    e.preventDefault(); // Prevent default behavior to avoid page reload
     var currentPos = getCoors(e);
     var deltaX = currentPos[0] - origin[0];
     var deltaY = currentPos[1] - origin[1];
@@ -126,11 +127,20 @@ var containers = document.querySelectorAll('.container');
       draggedElement.classList.remove('ondrag');
     }
   };
+
+  // Prevent default touch events on the container
+  container.ontouchstart = function (e) {
+    e.preventDefault();
+  };
+  container.ontouchmove = function (e) {
+    e.preventDefault();
+  };
 });
 
 document.ongesturechange = function () {
   return false;
 }
+
 
         </script>
       </body>
