@@ -11,6 +11,22 @@
 
     <link rel="manifest" href="./manifest.json" />
 
+    <script>
+      // Installierbare PWA
+      document.addEventListener("install", logLifecycleEvent);
+    
+      // Konsolenausgabe
+      document.addEventListener("activate", logLifecycleEvent);
+      document.addEventListener("fetch", logLifecycleEvent);
+      document.addEventListener("installend", logLifecycleEvent);
+      document.addEventListener("installed", logLifecycleEvent);
+      document.addEventListener("activateend", logLifecycleEvent);
+      document.addEventListener("uninstall", logLifecycleEvent);
+    
+      // Neuinstallation des Serviceworkers
+      document.addEventListener("activate", reinstallServiceworker);
+    </script>
+
   </head>
   <body>
     <div> <h1>Video</h1></div>
