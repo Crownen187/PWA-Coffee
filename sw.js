@@ -1,3 +1,5 @@
+// Importiere die benötigten Module
+importScripts("https://cdnjs.cloudflare.com/ajax/libs/pwacompat/1.4.2/pwacompat.min.js");
 const staticDevCoffee = "dev-coffee-site-v1";
 const assets = [
   "/",
@@ -15,8 +17,10 @@ const assets = [
   "/images/coffee9.jpg"
 ];
 
-// Importiere die benötigten Module
-importScripts("https://cdnjs.cloudflare.com/ajax/libs/pwacompat/1.4.2/pwacompat.min.js");
+
+
+
+
 
 // Definiere die `logLifecycleEvent`-Funktion
 function logLifecycleEvent(event) {
