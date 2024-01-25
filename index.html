@@ -23,6 +23,12 @@
             console.warn("Service Worker failed");
           });
       }
+
+      if ("install" in window) {
+        window.addEventListener("install", function(event) {
+          console.log("app installed");
+        });
+      }
     
       
     </script>
