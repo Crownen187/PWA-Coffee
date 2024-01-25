@@ -1,4 +1,5 @@
 const staticDevCoffee = "dev-coffee-site-v1";
+const version = "v1";
 const assets = [
   "/",
   "/js/index.html",
@@ -16,6 +17,7 @@ const assets = [
 ];
 
 self.addEventListener("activate", activateEvent => {
+  console.log("Service Worker activated" + version );
   activateEvent.waitUntil(
     caches.keys().then(cacheNames => {
       return Promise.all(
@@ -33,7 +35,7 @@ self.addEventListener("activate", activateEvent => {
 });
 
 self.addEventListener("install", installEvent => {
-  console.log("Service Worker installed");
+  console.log("Service Worker installed" + version );
   installEvent.waitUntil(
     caches
       .open(staticDevCoffee)
