@@ -12,8 +12,17 @@
     <link rel="manifest" href="./manifest.json" />
 
     <script>
-      // Installierbare PWA
-      document.addEventListener("install", logLifecycleEvent);
+      // Service Worker registrieren
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker
+          .register("./sw.js")
+          .then(function() {
+            console.log("Service Worker registered");
+          })
+          .catch(function() {
+            console.warn("Service Worker failed");
+          });
+      }
     
       // Konsolenausgabe
       document.addEventListener("activate", logLifecycleEvent);
