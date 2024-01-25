@@ -15,29 +15,48 @@ const assets = [
   "/images/coffee9.jpg"
 ];
 
+self.addEventListener("activate", activateEvent => {
+  activateEvent.waitUntil(
+    caches.keys().then(cacheNames => {
+      return Promise.all(
+        cacheNames.map(cacheName => {
+          if (cacheName !== staticDevCoffee) {
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    })
+    .then(() => {
+      console.log("Service Worker activated and old caches deleted");
+    })
+  );
+});
+
 self.addEventListener("install", installEvent => {
-  console.log(installEvent);
+  console.log("Service Worker installed");
   installEvent.waitUntil(
     caches
       .open(staticDevCoffee)
       .then(cache => {
         cache.addAll(assets);
       })
-      .catch(console.log)
+      .then(() => {
+        console.log("Assets cached");
+      })
+      .catch(error => {
+        console.error("Error caching assets:", error);
+      })
   );
 });
 
-self.addEventListener("fetch", event => {
-  // console.log(event.request);
-  event.respondWith(
-    caches
-      .match(event.request)
-      .then(res => {
-        return res || fetch(event.request);
-      })
-      .catch(console.log)
+self.addEventListener("fetch", fetchEvent => {
+  fetchEvent.respondWith(
+    caches.match(fetchEvent.request).then(response => {
+      return response || fetch(fetchEvent.request);
+    })
   );
 });
+
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches
