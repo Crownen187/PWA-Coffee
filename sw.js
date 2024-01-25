@@ -15,45 +15,68 @@ const assets = [
   "/images/coffee9.jpg"
 ];
 
-self.addEventListener("install", installEvent => {
-  console.log(installEvent);
-  installEvent.waitUntil(
+// Importiere die benötigten Module
+importScripts("https://cdnjs.cloudflare.com/ajax/libs/pwacompat/1.4.2/pwacompat.min.js");
+
+// Definiere die `logLifecycleEvent`-Funktion
+function logLifecycleEvent(event) {
+  console.log(`[LifecycleEvent] ${event}`);
+}
+
+// Definiere die `reinstallServiceworker`-Funktion
+function reinstallServiceworker() {
+  // Registriere den Service Worker neu
+  navigator.serviceWorker.register("/serviceworker.js").then(() => {
+    console.log("Serviceworker neu installiert");
+  });
+}
+
+// Registriere den Service Worker
+navigator.serviceWorker.register("/serviceworker.js").then(() => {
+  // Rufe die `logLifecycleEvent`-Funktion auf
+  logLifecycleEvent("install");
+
+  // Implementiere weitere Funktionalität
+});
+
+// Implementiere die `activate()`-Handler
+// Rufe die `logLifecycleEvent`-Funktion auf
+window.addEventListener("activate", logLifecycleEvent);
+
+// Rufe die `reinstallServiceworker`-Funktion auf
+window.addEventListener("activate", reinstallServiceworker);
+
+// Install-Handler
+self.addEventListener("install", (event) => {
+  event.waitUntil(
     caches
       .open(staticDevCoffee)
-      .then(cache => {
+      .then((cache) => {
         cache.addAll(assets);
+        console.log("Cache angelegt");
+        // Rufe die `logLifecycleEvent`-Funktion auf
+        logLifecycleEvent("install");
       })
       .catch(console.log)
   );
 });
 
-self.addEventListener("fetch", event => {
-  // console.log(event.request);
-  event.respondWith(
-    caches
-      .match(event.request)
-      .then(res => {
-        return res || fetch(event.request);
-      })
-      .catch(console.log)
-  );
-});
-self.addEventListener("install", (event) => {
+// Aktivieren-Handler
+self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches
-      .open("v1")
-      .then((cache) =>
-        cache.addAll([
-          "/",
-          "/index.html",
-          "/style.css",
-          "/app.js",
-          "/image-list.js",
-          "/star-wars-logo.jpg",
-          "/gallery/bountyHunters.jpg",
-          "/gallery/myLittleVader.jpg",
-          "/gallery/snowTroopers.jpg",
-        ]),
-      ),
+      .keys()
+      .then((cacheNames) =>
+        cacheNames.filter(cacheName => cacheName !== staticDevCoffee)
+          .map((cacheName) => caches.delete(cacheName))
+          .then(() => {
+            console.log("Cache geleert");
+            // Rufe die `logLifecycleEvent`-Funktion auf
+            logLifecycleEvent("activate");
+            // Rufe die `reinstallServiceworker`-Funktion auf
+            reinstallServiceworker();
+          })
+          .catch(console.log)
+      )
   );
 });
