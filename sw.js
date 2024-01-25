@@ -45,7 +45,9 @@ self.addEventListener("fetch", event => {
 });
 
 self.addEventListener("install", (event) => {
+  consle.log('Service Worker wurde installiert');
   event.waitUntil(
+    
     caches
       .open("v1")
       .then((cache) =>
