@@ -12,32 +12,38 @@ const assets = [
   "/images/coffee6.jpg",
   "/images/coffee7.jpg",
   "/images/coffee8.jpg",
-  "/images/coffee9.jpg"
+  "/images/coffee9.jpg",
+  "/star-wars-logo.jpg",
+  "/gallery/bountyHunters.jpg",
+  "/gallery/myLittleVader.jpg",
+  "/gallery/snowTroopers.jpg"
 ];
 
 self.addEventListener("install", installEvent => {
-  console.log(installEvent);
+  console.log('Service Worker wurde installiert');
   installEvent.waitUntil(
     caches
       .open(staticDevCoffee)
       .then(cache => {
+        console.log('Assets werden in den Cache geladen');
         cache.addAll(assets);
       })
-      .catch(console.log)
+      .catch(console.error)
   );
 });
 
 self.addEventListener("fetch", event => {
-  // console.log(event.request);
+  console.log('Fetch-Event abgefangen:', event.request.url);
   event.respondWith(
     caches
       .match(event.request)
       .then(res => {
         return res || fetch(event.request);
       })
-      .catch(console.log)
+      .catch(console.error)
   );
 });
+
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches
